@@ -1,6 +1,7 @@
 package com.everyAuction.everyAuction.Controller;
 
-import com.everyAuction.everyAuction.Service.scheduleService;
+import com.everyAuction.everyAuction.Service.ScheduleService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ import java.time.format.DateTimeFormatter;
 public class testpage {
 
     private final JdbcTemplate jdbcTemplate;
-    private final scheduleService t;
+    private final ScheduleService t;
     @GetMapping("/")
     public String a(){
         /*t.pq.add(1);
         String a = jdbcTemplate.queryForObject("select count(*) from MEMBER", String.class);
         System.out.println(a);*/
-        return "a";
+        return "mainpage";
     }
 
     @GetMapping("/a")
@@ -62,6 +63,14 @@ public class testpage {
         String s = jdbcTemplate.queryForObject(sql, String.class);
         System.out.println(s);
         return "a";
+    }
+
+    @GetMapping("/dd")
+    public String acfsd(){
+        String sql = "select count(*) from member";
+        String s = jdbcTemplate.queryForObject(sql, String.class);
+        System.out.println(s);
+        return "test";
     }
 
     /*@GetMapping("/{name}")

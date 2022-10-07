@@ -1,6 +1,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://54.180.119.91:3306/sakila?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://54.180.119.91:3306/everyAuction?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: test
     password: 123456
+server:
+  servlet:
+    session:
+      tracking-modes: cookie

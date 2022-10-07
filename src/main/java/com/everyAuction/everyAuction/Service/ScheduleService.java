@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.util.PriorityQueue;
 
 @Component
-public class scheduleService extends Thread{
+public class ScheduleService extends Thread{
     PriorityQueue<LocalDateTime> pq = new PriorityQueue<>();
     boolean isStop = false;
     public void run(){

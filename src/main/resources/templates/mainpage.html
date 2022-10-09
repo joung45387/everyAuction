@@ -7,6 +7,8 @@
 <body>
 <button onclick="location.href='/memberRegistration'">회원 가입</button>
 <button onclick="location.href='/productRegistration'">물품 등록</button>
+<button th:unless="${islogin}" onclick="location.href='/login'" >로그인</button>
+<button th:if="${islogin}" onclick="location.href='/logout'" >로그아웃</button>
 <form th:action method="post" enctype="multipart/form-data">
   <div> aa<input type="file" name="file"></div>
   <input type="submit">

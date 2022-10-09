@@ -1,5 +1,6 @@
 package com.everyAuction.everyAuction.Repository;
 
+import com.everyAuction.everyAuction.Domain.LoginForm;
 import com.everyAuction.everyAuction.Domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +26,23 @@ public class MemberRepository {
                 member.getAddress()
         );
     }
+    public Member findMember(LoginForm lf){
+        List<Member> query = jdbcTemplate.query(
+                "select * from users where id=? and password=?",
+                (rs, rowNum) -> {
+                    Member member = new Member(
+                            rs.getString("id"),
+                            rs.getString("password"),
+                            rs.getString("name"),
+                            rs.getString("phoneNumber"),
+                            rs.getString("address")
+                    );
+                    return member;
+                },
+                lf.getLoginId(), lf.getLoginPassword()
+        );
+        return query.isEmpty()?null:query.get(0);
+    }
     public boolean idExistence(String id){
         List<String> query = jdbcTemplate.query(
                 "select id from users where id=?",
@@ -35,6 +53,20 @@ public class MemberRepository {
                     return s;
                 },
                 id
+        );
+        return query.isEmpty()?false:true;
+    }
+
+    public boolean poslogin(LoginForm lf){
+        List<String> query = jdbcTemplate.query(
+                "select id from users where id=? and password=?",
+                (rs, rowNum) -> {
+                    String s = new String(
+                            rs.getString("id")
+                    );
+                    return s;
+                },
+                lf.getLoginId(), lf.getLoginPassword()
         );
         return query.isEmpty()?false:true;
     }

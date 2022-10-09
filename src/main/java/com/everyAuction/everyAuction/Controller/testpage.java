@@ -1,5 +1,6 @@
 package com.everyAuction.everyAuction.Controller;
 
+import com.everyAuction.everyAuction.Domain.Member;
 import com.everyAuction.everyAuction.Service.ScheduleService;
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,8 +30,10 @@ public class testpage {
 
     private final JdbcTemplate jdbcTemplate;
     private final ScheduleService t;
+    static final String SESSION_ID = "SESSION_ID";
     @GetMapping("/")
-    public String a(){
+    public String a(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
+        model.addAttribute("islogin", member);
         /*t.pq.add(1);
         String a = jdbcTemplate.queryForObject("select count(*) from MEMBER", String.class);
         System.out.println(a);*/

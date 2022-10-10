@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action method="post" enctype="multipart/form-data">
+        <div><input type="text" placeholder="제목을 입력하세요" name="title"></div>
+        <textarea cols="22" rows="30" placeholder="내용을 입력하세요" name="content"></textarea>
+        <div><input type="text" placeholder="시작가를 적으세요." name="startPrice"></div>
+        <div>경매 종료 시간을 입력하세요</div>
+        <input type="datetime-local" name="endTime">
+        <div><input type="file" name="file"></div>
+        <div><input type="submit"></div>
+    </form>
+</body>
+</html>

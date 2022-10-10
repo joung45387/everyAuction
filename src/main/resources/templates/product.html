@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:text="'제목:'+${product.title}"></div>
+<div th:text="'내용:'+${product.productInformation}"></div>
+<img th:src="'/img/'+${product.getProductPhoto()}">
+</body>
+</html>

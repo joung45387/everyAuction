@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1">
+<thead>
+<tr>
+    <th>글 번호</th>
+    <th>제목</th>
+    <th>경매 시작가</th>
+    <th>경매 종료 시간</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="product : ${productList}">
+    <td th:text="${product.id}"></td>
+    <td><a th:href="'/product/'+${product.id}" th:text="${product.title}"></a></td>
+    <td th:text="${product.startPrice}"></td>
+    <td th:text="${product.endTime}"></td>
+    </div>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

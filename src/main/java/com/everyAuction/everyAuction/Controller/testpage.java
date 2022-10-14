@@ -1,6 +1,7 @@
 package com.everyAuction.everyAuction.Controller;
 
 import com.everyAuction.everyAuction.Domain.Member;
+import com.everyAuction.everyAuction.Domain.ScheduledProduct;
 import com.everyAuction.everyAuction.Service.ScheduleService;
 
 import lombok.RequiredArgsConstructor;
@@ -58,7 +59,7 @@ public class testpage {
     public String datep(@RequestParam String starttime){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime q = LocalDateTime.parse(starttime, formatter);
-        t.noti(q);
+        t.noti(new ScheduledProduct(1, q));
         return "b";
     }
     @GetMapping("/select")

@@ -1,19 +1,20 @@
 package com.everyAuction.everyAuction.Controller;
 
+import com.everyAuction.everyAuction.Domain.BidRecord;
 import com.everyAuction.everyAuction.Domain.Member;
 import com.everyAuction.everyAuction.Domain.Product;
+import com.everyAuction.everyAuction.Repository.BidRepository;
 import com.everyAuction.everyAuction.Repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
@@ -22,6 +23,7 @@ import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
 @RequiredArgsConstructor
 public class ProductController {
     private final ItemRepository IR;
+    private final BidRepository BR;
 
     @GetMapping("/product/{id}")
     public String ProductController(@SessionAttribute(name = SESSION_ID, required = false) Member member,
@@ -32,6 +34,27 @@ public class ProductController {
         model.addAttribute("product", product);
         return "product";
     }
+
+
+    @PostMapping("/product/{id}/bid")
+    public String ProductBid(@SessionAttribute(name = SESSION_ID, required = false) Member member,
+                                    Model model,
+                                    String cost,
+                                    @PathVariable("id") int id){
+        if(member==null){
+            return "redirect:/login";
+        }
+        Product product = IR.findById(id);
+        model.addAttribute("product", product);
+        if(product.getCurrentPrice()>=Integer.parseInt(cost)){
+            model.addAttribute("lowerprice", "현재가 보다 낮은 입찰은 할수 없습니다.");
+            return "product";
+        }
+        IR.updateCurrentPrice(id, Integer.parseInt(cost));
+        BR.saveBidRecord(new BidRecord(member.getId(), id, LocalDateTime.now(ZoneId.of("Asia/Seoul")), Integer.parseInt(cost)));
+        return "redirect:/product/"+id;
+    }
+
     @GetMapping("/img/{filename}")
     @ResponseBody
     public Resource SaleItemUpload(@SessionAttribute(name = SESSION_ID, required = false) Member member,

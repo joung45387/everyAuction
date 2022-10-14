@@ -22,10 +22,7 @@ public class ProductList {
     @GetMapping("/productlist")
     public String SaleItemUpload(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
 
-        List<Product> all = IR.findAll();
-        for(Product a : all){
-            System.out.println(a.getId()+" "+a.getSaleUser()+" "+a.getStartPrice());
-        }
+        List<Product> all = IR.saleAll();
         model.addAttribute("productList", all);
         return "productList";
     }

@@ -17,6 +17,7 @@ public class EveryAuctionApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EveryAuctionApplication.class, args);
 		scheduleService.start();
+		scheduleService.init();
 	}
 
 }

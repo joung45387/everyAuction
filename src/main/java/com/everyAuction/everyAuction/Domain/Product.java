@@ -15,14 +15,16 @@ public class Product {
     private String productInformation;
     private String title;
     private LocalDateTime endTime;
+    private int currentPrice;
 
-    public Product(String saleUser, int startPrice, String productPhoto, String productInformation, String title, LocalDateTime endTime) {
+    public Product(String saleUser, int startPrice, String productPhoto, String productInformation, String title, LocalDateTime endTime, int currentPrice) {
         this.saleUser = saleUser;
         this.startPrice = startPrice;
         this.productPhoto = productPhoto;
         this.productInformation = productInformation;
         this.title = title;
         this.endTime = endTime;
+        this.currentPrice = currentPrice;
     }
     public Product(){};
 }

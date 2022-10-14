@@ -4,6 +4,10 @@ spring:
     url: jdbc:mysql://54.180.119.91:3306/everyAuction?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: test
     password: 123456
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 server:
   servlet:
     session:

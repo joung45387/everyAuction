@@ -1,9 +1,6 @@
 package com.everyAuction.everyAuction.Controller;
 
-import com.everyAuction.everyAuction.Domain.LoginForm;
-import com.everyAuction.everyAuction.Domain.Member;
-import com.everyAuction.everyAuction.Domain.Product;
-import com.everyAuction.everyAuction.Domain.SaleItemDTO;
+import com.everyAuction.everyAuction.Domain.*;
 import com.everyAuction.everyAuction.Repository.ItemRepository;
 import com.everyAuction.everyAuction.Service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +24,7 @@ import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
 public class SaleItemUpload {
 
     private final ItemRepository IR;
+    private final ScheduleService SS;
 
     @GetMapping("/saleitemupload")
     public String SaleItemUpload(@SessionAttribute(name = SESSION_ID, required = false) Member member){
@@ -43,15 +41,13 @@ public class SaleItemUpload {
         if(login == null){
             return "redirect:/";
         }
-        System.out.println(saleItemDTO.getTitle());
-        System.out.println(saleItemDTO.getContent());
-        System.out.println(saleItemDTO.getEndTime());
-        System.out.println(file.getOriginalFilename());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime LDT = LocalDateTime.parse(saleItemDTO.getEndTime(), formatter);
-        file.transferTo(new File("D:\\"+file.getOriginalFilename()));
-        IR.saveItem(new Product(login.getId(), saleItemDTO.getStartPrice(), file.getOriginalFilename(), saleItemDTO.getContent(), saleItemDTO.getTitle(), LDT));
-
+        if(!file.isEmpty()){
+            file.transferTo(new File("D:\\"+file.getOriginalFilename()));
+        }
+        IR.saveItem(new Product(login.getId(), saleItemDTO.getStartPrice(), file.getOriginalFilename(), saleItemDTO.getContent(), saleItemDTO.getTitle(), LDT, saleItemDTO.getStartPrice()));
+        SS.noti(new ScheduledProduct(saleItemDTO.getId(), LDT));
 
         return "redirect:/";
     }

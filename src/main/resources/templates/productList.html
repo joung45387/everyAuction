@@ -11,6 +11,7 @@
     <th>글 번호</th>
     <th>제목</th>
     <th>경매 시작가</th>
+    <th>경매 현재가</th>
     <th>경매 종료 시간</th>
 </tr>
 </thead>
@@ -19,6 +20,7 @@
     <td th:text="${product.id}"></td>
     <td><a th:href="'/product/'+${product.id}" th:text="${product.title}"></a></td>
     <td th:text="${product.startPrice}"></td>
+    <td th:text="${product.currentPrice}"></td>
     <td th:text="${product.endTime}"></td>
     </div>
 </tr>

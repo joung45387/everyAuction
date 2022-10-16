@@ -26,6 +26,16 @@ public class BidRepository {
         );
     }
 
+    public void saveCompleteBidRecord(BidRecord bidRecord){
+        jdbcTemplate.update(
+                "insert into bidRecord(bidUserId, ProductId, bidTime, bidPrice) values(?,?,?,?)",
+                bidRecord.getBidUserId(),
+                bidRecord.getProductId(),
+                bidRecord.getBidTime(),
+                bidRecord.getBidPrice()
+        );
+    }
+
     public List<ScheduledProduct> saleingBidRecord(){
         List<ScheduledProduct> scheduledProducts = jdbcTemplate.query("select id, endTime from product where endTime>?",
                 (rs, rowNum) -> {

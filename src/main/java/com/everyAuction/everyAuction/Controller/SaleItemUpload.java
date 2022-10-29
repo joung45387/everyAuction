@@ -12,10 +12,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
 
@@ -43,10 +49,27 @@ public class SaleItemUpload {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime LDT = LocalDateTime.parse(saleItemDTO.getEndTime(), formatter);
-        if(!file.isEmpty()){
+
+
+        Map<String, Object> blob = new HashMap<String, Object>();
+        String fileName = file.getOriginalFilename();
+        byte[] bytes;
+        /*try{
+            bytes = file.getBytes();
+            Blob blobdata = new javax.sql.rowset.serial.SerialBlob(bytes);
+            blob.put("file", blobdata);
+            blob.put("fileName", fileName);
+            blob.put("fileSize", blobdata.length());
+        } catch (SerialException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }*/
+
+        /*if(!file.isEmpty()){
             file.transferTo(new File("D:\\"+file.getOriginalFilename()));
-        }
-        IR.saveItem(new Product(login.getId(), saleItemDTO.getStartPrice(), file.getOriginalFilename(), saleItemDTO.getContent(), saleItemDTO.getTitle(), LDT, saleItemDTO.getStartPrice()));
+        }*/
+        IR.saveItem(new Product(login.getId(), saleItemDTO.getStartPrice(), file.getBytes(), saleItemDTO.getContent(), saleItemDTO.getTitle(), LDT, saleItemDTO.getStartPrice()));
         SS.noti(new ScheduledProduct(saleItemDTO.getId(), LDT));
 
         return "redirect:/";

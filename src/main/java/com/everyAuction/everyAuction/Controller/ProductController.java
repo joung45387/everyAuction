@@ -11,7 +11,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -31,7 +30,10 @@ public class ProductController {
                           @PathVariable("id") int id){
 
         Product product = IR.findById(id);
+        byte[] encoded=org.apache.commons.codec.binary.Base64.encodeBase64((byte[]) product.getProductPhoto());
+        String encodedString = new String(encoded);
         model.addAttribute("product", product);
+        model.addAttribute("photo", encodedString);
         return "product";
     }
 
@@ -45,6 +47,7 @@ public class ProductController {
             return "redirect:/login";
         }
         Product product = IR.findById(id);
+        System.out.println(product.getProductPhoto().length);
         model.addAttribute("product", product);
         if(product.getCurrentPrice()>=Integer.parseInt(cost)){
             model.addAttribute("lowerprice", "현재가 보다 낮은 입찰은 할수 없습니다.");
@@ -53,13 +56,5 @@ public class ProductController {
         IR.updateCurrentPrice(id, Integer.parseInt(cost));
         BR.saveBidRecord(new BidRecord(member.getId(), id, LocalDateTime.now(ZoneId.of("Asia/Seoul")), Integer.parseInt(cost)));
         return "redirect:/product/"+id;
-    }
-
-    @GetMapping("/img/{filename}")
-    @ResponseBody
-    public Resource SaleItemUpload(@SessionAttribute(name = SESSION_ID, required = false) Member member,
-                                   Model model,
-                                   @PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:D:\\"+filename);
     }
 }

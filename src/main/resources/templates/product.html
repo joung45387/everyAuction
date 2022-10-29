@@ -21,6 +21,6 @@
 </form>
 <div class="fieldError" th:if="${lowerprice}" th:text="${lowerprice}"></div>
 <div th:text="'내용:'+${product.productInformation}"></div>
-<img th:src="'/img/'+${product.getProductPhoto()}">
+<img th:src="'data:image/png;base64,'+${photo}">
 </body>
 </html>

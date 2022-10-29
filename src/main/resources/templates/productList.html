@@ -9,6 +9,7 @@
 <thead>
 <tr>
     <th>글 번호</th>
+    <th>썸네일</th>
     <th>제목</th>
     <th>경매 시작가</th>
     <th>경매 현재가</th>
@@ -18,6 +19,7 @@
 <tbody>
 <tr th:each="product : ${productList}">
     <td th:text="${product.id}"></td>
+    <td> <img th:src="'data:image/png;base64,'+${photo[productStat.index]}" style="width:100px; height:100px;"> </td>
     <td><a th:href="'/product/'+${product.id}" th:text="${product.title}"></a></td>
     <td th:text="${product.startPrice}"></td>
     <td th:text="${product.currentPrice}"></td>

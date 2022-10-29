@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class ItemRepository {
                     product.setId(rs.getInt("id"));
                     product.setSaleUser(rs.getString("salesUser"));
                     product.setStartPrice(rs.getInt("startPrice"));
-                    product.setProductPhoto(rs.getString("productPhoto"));
+                    product.setProductPhoto(rs.getBytes("productPhoto"));
                     product.setProductInformation(rs.getString("ProductInformation"));
                     product.setTitle(rs.getString("title"));
                     product.setEndTime(rs.getObject("endTime", LocalDateTime.class));
@@ -61,7 +62,7 @@ public class ItemRepository {
                     product.setId(rs.getInt("id"));
                     product.setSaleUser(rs.getString("salesUser"));
                     product.setStartPrice(rs.getInt("startPrice"));
-                    product.setProductPhoto(rs.getString("productPhoto"));
+                    product.setProductPhoto(rs.getBytes("productPhoto"));
                     product.setProductInformation(rs.getString("ProductInformation"));
                     product.setTitle(rs.getString("title"));
                     product.setEndTime(rs.getObject("endTime", LocalDateTime.class));
@@ -81,7 +82,7 @@ public class ItemRepository {
                     product.setId(rs.getInt("id"));
                     product.setSaleUser(rs.getString("salesUser"));
                     product.setStartPrice(rs.getInt("startPrice"));
-                    product.setProductPhoto(rs.getString("productPhoto"));
+                    product.setProductPhoto(rs.getBytes("productPhoto"));
                     product.setProductInformation(rs.getString("ProductInformation"));
                     product.setTitle(rs.getString("title"));
                     product.setEndTime(rs.getObject("endTime", LocalDateTime.class));

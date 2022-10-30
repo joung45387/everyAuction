@@ -35,18 +35,18 @@ public class testpage {
     @GetMapping("/")
     public String a(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
         model.addAttribute("islogin", member);
-        /*t.pq.add(1);
-        String a = jdbcTemplate.queryForObject("select count(*) from MEMBER", String.class);
-        System.out.println(a);*/
         return "mainpage";
     }
 
     @GetMapping("/a")
     public String aa(){
         System.out.println("121212");
-        /*String a = jdbcTemplate.queryForObject("select count(*) from MEMBER", String.class);
-        System.out.println(a);*/
         return "a";
+    }
+    @GetMapping("/websocket")
+    public String websocket(){
+
+        return "websockettest";
     }
 
     @GetMapping("/date")
@@ -66,7 +66,6 @@ public class testpage {
     public String ac(){
         String sql = "select count(*) from member";
         String s = jdbcTemplate.queryForObject(sql, String.class);
-        System.out.println(s);
         return "a";
     }
 
@@ -74,7 +73,6 @@ public class testpage {
     public String acfsd(){
         String sql = "select count(*) from member";
         String s = jdbcTemplate.queryForObject(sql, String.class);
-        System.out.println(s);
         return "test";
     }
 
@@ -91,7 +89,6 @@ public class testpage {
 
     @PostMapping("/")
     public String save(@RequestParam MultipartFile file) throws IOException {
-        System.out.println(file);
         file.transferTo(new File("D:\\"+file.getOriginalFilename()));
         return "a";
     }

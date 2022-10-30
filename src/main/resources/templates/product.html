@@ -10,13 +10,30 @@
         countDownTimer('lefttime', /*[[${product.endTime}]]*/);
         /*]]>*/
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <script th:inline="javascript">
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnected, onError);
+        function onConnected() {
+            console.log("sucess");
+            stompClient.subscribe('/sub/productId/'+22, function (e) {
+                document.getElementById("id22").innerText = "현재가:"+e.body;
+            });
+        }
+        function onError(error) {
+            console.log("error");
+        }
+    </script>
 </head>
 <body>
 <div th:text="'제목:'+${product.title}"></div>
-<div th:text="'현재가:'+${product.currentPrice}"></div>
+<div th:text="'현재가:'+${product.currentPrice}" th:id="'id'+${product.id}"></div>
 <div id = "lefttime"></div>
 <form th:action="'/product/'+${product.id}+'/bid'" method="post">
-    <input type="text" name="cost">
+    <input type="text" name="cost" id="price">
     <input type="submit" value="입찰하기">
 </form>
 <div class="fieldError" th:if="${lowerprice}" th:text="${lowerprice}"></div>

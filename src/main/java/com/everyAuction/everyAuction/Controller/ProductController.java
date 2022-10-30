@@ -8,6 +8,7 @@ import com.everyAuction.everyAuction.Repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
 public class ProductController {
     private final ItemRepository IR;
     private final BidRepository BR;
+    private final SimpMessageSendingOperations simpMessageSendingOperations;
 
     @GetMapping("/product/{id}")
     public String ProductController(@SessionAttribute(name = SESSION_ID, required = false) Member member,
@@ -47,12 +49,13 @@ public class ProductController {
             return "redirect:/login";
         }
         Product product = IR.findById(id);
-        System.out.println(product.getProductPhoto().length);
         model.addAttribute("product", product);
         if(product.getCurrentPrice()>=Integer.parseInt(cost)){
             model.addAttribute("lowerprice", "현재가 보다 낮은 입찰은 할수 없습니다.");
             return "product";
         }
+        System.out.println("/sub/productId/"+id);
+        simpMessageSendingOperations.convertAndSend("/sub/productId/"+id, cost);
         IR.updateCurrentPrice(id, Integer.parseInt(cost));
         BR.saveBidRecord(new BidRecord(member.getId(), id, LocalDateTime.now(ZoneId.of("Asia/Seoul")), Integer.parseInt(cost)));
         return "redirect:/product/"+id;

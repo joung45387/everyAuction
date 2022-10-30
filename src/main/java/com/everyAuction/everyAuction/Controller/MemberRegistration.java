@@ -26,7 +26,6 @@ public class MemberRegistration {
     public String save(@ModelAttribute Member memberForm, Model model){
         ConcurrentHashMap<String, String> errors = new ConcurrentHashMap<>();
 
-        System.out.println("저장"+memberForm.getId());
         if(MR.idExistence(memberForm.getId())){
             errors.put("idDuplication", "중복된 아이디입니다.");
         }

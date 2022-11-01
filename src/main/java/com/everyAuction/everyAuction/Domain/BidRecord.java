@@ -14,10 +14,12 @@ public class BidRecord {
         this.bidTime = bidTime;
         this.bidPrice = bidPrice;
     }
+    public BidRecord(){}
 
-    private String bidRecordId;
+    private int bidRecordId;
     private String bidUserId;
     private int productId;
     private LocalDateTime bidTime;
     private int bidPrice;
+
 }

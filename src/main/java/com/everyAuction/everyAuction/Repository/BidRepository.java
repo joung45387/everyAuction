@@ -48,4 +48,29 @@ public class BidRepository {
         );
         return scheduledProducts;
     }
+
+
+    public List<Product> completebidrecord(){
+        List<Product> findcompleteproduct = jdbcTemplate.query("select id, title, productPhoto,endTime from product where endTime<?",
+                (rs, rowNum) -> {
+                    Product sp = new Product();
+                    sp.setId(rs.getInt("id"));
+                    sp.setTitle(rs.getString("title"));
+                    sp.setProductPhoto(rs.getBytes("productPhoto"));
+                    sp.setEndTime(rs.getObject("endTime", LocalDateTime.class));
+                    return sp;
+                },
+                LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+        );
+        return findcompleteproduct;
+    }
+
+    public String findBidder (int productId){
+        List<String> buyer = jdbcTemplate.query("select bidUserId from bidRecord where productId=? and bidPrice = (select max(bidPrice) from bidRecord where productId = ?)",
+                (rs, rowNum) -> rs.getString("bidUserId"),
+                productId,
+                productId
+        );
+        return buyer.isEmpty()?null:buyer.get(0);
+    }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>거래완료</h3>
+<table border="1">
+<thead>
+<tr>
+    <th>사진</th>
+    <th>제목</th>
+    <th>입찰기록확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>test1</td>
+    <td>test2</td>
+    <td>test3</td>
+</tr>
+<tr th:each="product : ${productList}">
+    <td> <img th:src="'data:image/png;base64,'+${photo[productStat.index]}" style="width:100px; height:100px;"> </td>
+    <td><a th:href="'/product/'+${product.id}" th:text="${product.title}"></a></td>
+    <td><button>기록확인</button></td>
+    </div>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

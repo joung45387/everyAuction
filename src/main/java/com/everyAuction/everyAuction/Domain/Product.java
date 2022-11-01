@@ -18,6 +18,7 @@ public class Product {
     private String title;
     private LocalDateTime endTime;
     private int currentPrice;
+    private String buyer;
 
     public Product(String saleUser, int startPrice, byte[] productPhoto, String productInformation, String title, LocalDateTime endTime, int currentPrice) {
         this.saleUser = saleUser;

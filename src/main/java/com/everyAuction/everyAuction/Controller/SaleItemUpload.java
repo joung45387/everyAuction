@@ -69,8 +69,9 @@ public class SaleItemUpload {
         /*if(!file.isEmpty()){
             file.transferTo(new File("D:\\"+file.getOriginalFilename()));
         }*/
-        IR.saveItem(new Product(login.getId(), saleItemDTO.getStartPrice(), file.getBytes(), saleItemDTO.getContent(), saleItemDTO.getTitle(), LDT, saleItemDTO.getStartPrice()));
-        SS.noti(new ScheduledProduct(saleItemDTO.getId(), LDT));
+        int id = IR.saveItem(new Product(login.getId(), saleItemDTO.getStartPrice(), file.getBytes(), saleItemDTO.getContent(), saleItemDTO.getTitle(), LDT, saleItemDTO.getStartPrice()));
+        System.out.println(id);
+        SS.noti(new ScheduledProduct((int)id, LDT));
 
         return "redirect:/";
     }

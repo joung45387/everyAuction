@@ -2,6 +2,7 @@ package com.everyAuction.everyAuction.Service;
 
 import com.everyAuction.everyAuction.Domain.ScheduledProduct;
 import com.everyAuction.everyAuction.Repository.BidRepository;
+import com.everyAuction.everyAuction.Repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ public class ScheduleService extends Thread{
         }
     });
     private final BidRepository BR;
+    private final ItemRepository IR;
     boolean isStop = false;
     public void run(){
         while (true){
@@ -48,7 +50,10 @@ public class ScheduleService extends Thread{
                 }
             }
             if(!isStop){
-                pq.poll();
+                ScheduledProduct productInfo = pq.poll();
+                String bidder = BR.findBidder(productInfo.getId());
+                System.out.println(bidder);
+                IR.updateBidder(bidder, productInfo.getId());
                 System.out.println("동작 완료! 남은 작업:"+pq.size());
             }
             isStop = false;

@@ -36,6 +36,7 @@ public class ProductController {
         String encodedString = new String(encoded);
         model.addAttribute("product", product);
         model.addAttribute("photo", encodedString);
+        model.addAttribute("possible", product.getEndTime().compareTo(LocalDateTime.now(ZoneId.of("Asia/Seoul"))) > 0);
         return "product";
     }
 

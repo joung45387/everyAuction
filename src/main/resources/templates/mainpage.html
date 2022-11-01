@@ -10,6 +10,7 @@
 <button onclick="location.href='/productlist'">물품 보기</button>
 <button th:unless="${islogin}" onclick="location.href='/login'" >로그인</button>
 <button th:if="${islogin}" onclick="location.href='/logout'" >로그아웃</button>
+<button th:if="${islogin}" onclick="location.href='/bidRecode'"> 거래기록</button>
 <form th:action method="post" enctype="multipart/form-data">
   <div> aa<input type="file" name="file"></div>
   <input type="submit">

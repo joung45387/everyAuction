@@ -32,7 +32,7 @@
 <div th:text="'제목:'+${product.title}"></div>
 <div th:text="'현재가:'+${product.currentPrice}" th:id="'id'+${product.id}"></div>
 <div id = "lefttime"></div>
-<form th:action="'/product/'+${product.id}+'/bid'" method="post">
+<form th:action="'/product/'+${product.id}+'/bid'" th:if="${possible}" method="post">
     <input type="text" name="cost" id="price">
     <input type="submit" value="입찰하기">
 </form>

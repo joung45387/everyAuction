@@ -20,7 +20,7 @@ public class MemberRegistration {
     @GetMapping("/memberRegistration")
     public String memberRegistration(Model model, Member memberForm){
         model.addAttribute("member", memberForm);
-        return "memberRegistration";
+        return "join";
     }
     @PostMapping("/regist")
     public String save(@ModelAttribute Member memberForm, Model model){
@@ -31,7 +31,7 @@ public class MemberRegistration {
         }
         if(!errors.isEmpty()){
             model.addAttribute("errors", errors);
-            return "memberRegistration";
+            return "join";
         }
         MR.saveMember(memberForm);
          return "redirect:/";

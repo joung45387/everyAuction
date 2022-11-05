@@ -26,6 +26,14 @@
         function onError(error) {
             console.log("error");
         }
+        function show(id){
+            if(document.getElementById("edit"+id).style.display === "block"){
+                document.getElementById("edit"+id).style.display="none";
+            }
+            else{
+                document.getElementById("edit"+id).style.display="block";
+            }
+        }
     </script>
 </head>
 <body>
@@ -39,5 +47,26 @@
 <div class="fieldError" th:if="${lowerprice}" th:text="${lowerprice}"></div>
 <div th:text="'내용:'+${product.productInformation}"></div>
 <img th:src="'data:image/png;base64,'+${photo}">
+<div>댓글 : </div>
+<div th:each="reply : ${replies}">
+    <div th:text="${reply.getUserId()}" style="display: inline-block"></div>
+    <div th:text="${reply.getContent()}" style="display: inline-block"></div>
+    <div th:text="${reply.getUploadTime()}" style="display: inline-block"></div>
+
+    <button th:if="${mine[replyStat.index]}" th:onclick="'show('+${reply.id}+')'">수정</button>
+    <form th:if="${mine[replyStat.index]}" th:action="'/product/deletereply/'+${reply.id}+'/'+${product.id}" method="post" style="display: inline-block">
+    <input type="submit" value="삭제">
+    </form>
+    <form th:if="${mine[replyStat.index]}" th:action="'/product/editreply/'+${reply.id}+'/'+${product.id}"
+          method="post" style="display: none" th:id="'edit'+${reply.id}" >
+        <input type="text" name="content">
+        <input type="submit" value="수정">
+    </form>
+</div>
+
+<form th:action="'/product/'+${product.id}+'/productreply'" method="post">
+    <input type="text" name="content">
+    <input type="submit" value="등록">
+</form>
 </body>
 </html>

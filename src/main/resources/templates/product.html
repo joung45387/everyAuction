@@ -12,6 +12,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="/modal.js"></script>
 
     <script th:inline="javascript">
         var socket = new SockJS('/ws');
@@ -44,6 +45,7 @@
     <input type="text" name="cost" id="price">
     <input type="submit" value="입찰하기">
 </form>
+<button  th:onclick="'test('+${product.id}+')'">기록확인</button>
 <div class="fieldError" th:if="${lowerprice}" th:text="${lowerprice}"></div>
 <div th:text="'내용:'+${product.productInformation}"></div>
 <img th:src="'data:image/png;base64,'+${photo}">
@@ -68,5 +70,6 @@
     <input type="text" name="content">
     <input type="submit" value="등록">
 </form>
+<div class="container" id="te"></div>
 </body>
 </html>

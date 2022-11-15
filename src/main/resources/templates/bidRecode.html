@@ -6,6 +6,7 @@
 </head>
 <body>
 <h3>거래완료</h3>
+<div th:if="!${existence}">
 <table border="1">
 <thead>
 <tr>
@@ -15,18 +16,17 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-    <td>test1</td>
-    <td>test2</td>
-    <td>test3</td>
-</tr>
 <tr th:each="product : ${productList}">
     <td> <img th:src="'data:image/png;base64,'+${photo[productStat.index]}" style="width:100px; height:100px;"> </td>
     <td><a th:href="'/product/'+${product.id}" th:text="${product.title}"></a></td>
-    <td><button>기록확인</button></td>
-    </div>
+    <td><button  th:onclick="'test('+${product.id}+')'">기록확인</button></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="container" id="te"></div>
+<div th:if="${existence}">거래기록이 없습니다.</div>
+
 </body>
+<script src="/modal.js"></script>
 </html>

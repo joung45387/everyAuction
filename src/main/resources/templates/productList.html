@@ -17,7 +17,7 @@
 </tr>
 </thead>
 <tbody>
-<tr th:each="product : ${productList}">
+<tr th:each="${productList}">
     <td th:text="${product.id}"></td>
     <td> <img th:src="'data:image/png;base64,'+${photo[productStat.index]}" style="width:100px; height:100px;"> </td>
     <td><a th:href="'/product/'+${product.id}" th:text="${product.title}"></a></td>

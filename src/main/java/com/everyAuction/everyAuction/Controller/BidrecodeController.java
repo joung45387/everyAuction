@@ -1,5 +1,6 @@
 package com.everyAuction.everyAuction.Controller;
 
+import com.everyAuction.everyAuction.Domain.BidRecord;
 import com.everyAuction.everyAuction.Domain.Member;
 import com.everyAuction.everyAuction.Domain.Product;
 import com.everyAuction.everyAuction.Repository.BidRepository;
@@ -24,11 +25,44 @@ public class BidrecodeController {
 
     @GetMapping("/bidRecode")
     public String SearchbidComplete(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
-        List<Product> completebidrecord = BR.completebidrecord();
+
+        if(member==null){
+            return "redirect:/login";
+        }
+
+        List<Product> completebidrecord = BR.completebidrecord(member.getId());
         List<String> imgs = completebidrecord.stream().map(img -> new String(Base64.encodeBase64((byte[]) img.getProductPhoto()))).collect(Collectors.toList());
         model.addAttribute("productList", completebidrecord);
         model.addAttribute("photo", imgs);
+        model.addAttribute("existence", completebidrecord.isEmpty());
         return "bidrecode";
+    }
+
+    @GetMapping("/bidBuyRecode")
+    public String SearchbidBuyComplete(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
+
+        if(member==null){
+            return "redirect:/login";
+        }
+
+        List<Product> completebidrecord = BR.completebuybidrecord(member.getId());
+        List<String> imgs = completebidrecord.stream().map(img -> new String(Base64.encodeBase64((byte[]) img.getProductPhoto()))).collect(Collectors.toList());
+        model.addAttribute("productList", completebidrecord);
+        model.addAttribute("photo", imgs);
+        model.addAttribute("existence", completebidrecord.isEmpty());
+        return "bidrecode";
+    }
+
+    @GetMapping("/bidComplete/{productId}")
+    public String SearchProductidandbidComplete(@SessionAttribute(name = SESSION_ID, required = false) Member member,
+                                                Model model,
+                                                @PathVariable("productId") int id){
+        if(member==null){
+            return "redirect:/login";
+        }
+        List<BidRecord> findbyproductid = BR.findbyproductid(id);
+        model.addAttribute("bidRecord", findbyproductid);
+        return "bidComplete";
     }
 
 }

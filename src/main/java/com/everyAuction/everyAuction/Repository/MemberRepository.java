@@ -43,6 +43,7 @@ public class MemberRepository {
         );
         return query.isEmpty()?null:query.get(0);
     }
+
     public boolean idExistence(String id){
         List<String> query = jdbcTemplate.query(
                 "select id from users where id=?",

@@ -37,7 +37,7 @@ public class ProductController {
                           @PathVariable("id") int id){
 
         model = productInit(model, IR.findById(id), id, member);
-        return "product";
+        return "product_single";
     }
 
 

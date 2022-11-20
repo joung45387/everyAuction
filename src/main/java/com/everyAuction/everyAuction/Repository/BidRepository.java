@@ -68,13 +68,14 @@ public class BidRepository {
 
 
     public List<Product> completebidrecord(String id){
-        List<Product> findcompleteproduct = jdbcTemplate.query("select id, title, productPhoto,endTime from product where endTime<? and salesUser = ?",
+        List<Product> findcompleteproduct = jdbcTemplate.query("select id, title, productPhoto,endTime, buyer from product where endTime<? and salesUser = ?",
                 (rs, rowNum) -> {
                     Product sp = new Product();
                     sp.setId(rs.getInt("id"));
                     sp.setTitle(rs.getString("title"));
                     sp.setProductPhoto(rs.getBytes("productPhoto"));
                     sp.setEndTime(rs.getObject("endTime", LocalDateTime.class));
+                    sp.setBuyer(rs.getString("buyer"));
                     return sp;
                 },
                 LocalDateTime.now(ZoneId.of("Asia/Seoul")),
@@ -84,17 +85,41 @@ public class BidRepository {
     }
 
     public List<Product> completebuybidrecord(String id){
-        List<Product> findcompleteproduct = jdbcTemplate.query("select id, title, productPhoto,endTime from product where endTime<? and buyer = ?",
+        List<Product> findcompleteproduct = jdbcTemplate.query("select id, title, productPhoto,endTime, buyer,salesUser from product where endTime<? and buyer = ?",
                 (rs, rowNum) -> {
                     Product sp = new Product();
                     sp.setId(rs.getInt("id"));
                     sp.setTitle(rs.getString("title"));
                     sp.setProductPhoto(rs.getBytes("productPhoto"));
                     sp.setEndTime(rs.getObject("endTime", LocalDateTime.class));
+                    sp.setBuyer(rs.getString("buyer"));
+                    sp.setSaleUser(rs.getString("salesUser"));
                     return sp;
                 },
                 LocalDateTime.now(ZoneId.of("Asia/Seoul")),
                 id
+        );
+        return findcompleteproduct;
+    }
+
+    public List<Product> findBuyRecord(String id){
+        List<Product> findcompleteproduct = jdbcTemplate.query("select product.id,title,productPhoto, endTime, buyer, salesUser from bidRecord, product " +
+                        "where bidRecord.productId = product.id " +
+                        "and bidUserId = ?" +
+                        "and endTime< ?" +
+                        "group by productId",
+                (rs, rowNum) -> {
+                    Product sp = new Product();
+                    sp.setId(rs.getInt("id"));
+                    sp.setTitle(rs.getString("title"));
+                    sp.setProductPhoto(rs.getBytes("productPhoto"));
+                    sp.setEndTime(rs.getObject("endTime", LocalDateTime.class));
+                    sp.setBuyer(rs.getString("buyer"));
+                    sp.setSaleUser(rs.getString("salesUser"));
+                    return sp;
+                },
+                id,
+                LocalDateTime.now(ZoneId.of("Asia/Seoul"))
         );
         return findcompleteproduct;
     }

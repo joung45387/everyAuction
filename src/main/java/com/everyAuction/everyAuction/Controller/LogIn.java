@@ -28,7 +28,7 @@ public class LogIn {
             return "redirect:/";
         }
         model.addAttribute("loginForm", new LoginForm());
-        return "login";
+        return "auctionLogin";
     }
 
     @PostMapping("/login")
@@ -40,6 +40,6 @@ public class LogIn {
             return "redirect:/";
         }
         model.addAttribute("error", "아이디 혹은 비밀번호가 잘못되었습니다.");
-        return "login";
+        return "auctionLogin";
     }
 }

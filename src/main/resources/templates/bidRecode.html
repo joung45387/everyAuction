@@ -5,21 +5,29 @@
     <title>Title</title>
 </head>
 <body>
-<h3>거래완료</h3>
+<h3 th:text="${status}">거래완료</h3>
 <div th:if="!${existence}">
 <table border="1">
 <thead>
 <tr>
     <th>사진</th>
     <th>제목</th>
+    <th th:if="${status} == '판매 기록'">구매자</th>
+    <th th:unless="${status} == '판매 기록'">판매자</th>
     <th>입찰기록확인</th>
+    <th>채팅하기</th>
 </tr>
 </thead>
 <tbody>
 <tr th:each="product : ${productList}">
     <td> <img th:src="'data:image/png;base64,'+${photo[productStat.index]}" style="width:100px; height:100px;"> </td>
     <td><a th:href="'/product/'+${product.id}" th:text="${product.title}"></a></td>
-    <td><button  th:onclick="'test('+${product.id}+')'">기록확인</button></td>
+    <td><div th:if="${status} == '판매 기록'"><a th:text="${product.buyer}"></a></div>
+        <div th:unless="${status} == '판매 기록'"><a th:text="${product.saleUser}"></a></div></td>
+    <td><div th:if="${product.buyer}!='유찰'"><button  th:onclick="'test('+${product.id}+')'">기록확인</button></div>
+        <div th:unless="${product.buyer}!='유찰'">유찰됨</div>
+    </td>
+    <td><button th:onclick="'chat('+${product.id}+')'">채팅하기</button></td>
 </tr>
 </tbody>
 </table>

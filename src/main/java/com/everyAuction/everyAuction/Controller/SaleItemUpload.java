@@ -37,7 +37,7 @@ public class SaleItemUpload {
         if(member==null){
            return "redirect:/login";
         }
-        return "saleitemupload";
+        return "productUpload";
     }
 
     @PostMapping("/saleitemupload")

@@ -35,7 +35,9 @@ public class BidrecodeController {
         model.addAttribute("productList", completebidrecord);
         model.addAttribute("photo", imgs);
         model.addAttribute("existence", completebidrecord.isEmpty());
-        return "bidrecode";
+
+        model.addAttribute("status", "판매 기록");
+        return "myProduct_sales";
     }
 
     @GetMapping("/bidBuyRecode")
@@ -45,12 +47,14 @@ public class BidrecodeController {
             return "redirect:/login";
         }
 
-        List<Product> completebidrecord = BR.completebuybidrecord(member.getId());
+        List<Product> completebidrecord = BR.findBuyRecord(member.getId());
         List<String> imgs = completebidrecord.stream().map(img -> new String(Base64.encodeBase64((byte[]) img.getProductPhoto()))).collect(Collectors.toList());
         model.addAttribute("productList", completebidrecord);
         model.addAttribute("photo", imgs);
         model.addAttribute("existence", completebidrecord.isEmpty());
-        return "bidrecode";
+        model.addAttribute("myid", member.getId());
+        model.addAttribute("status", "구매 기록");
+        return "myProduct_purchase";
     }
 
     @GetMapping("/bidComplete/{productId}")

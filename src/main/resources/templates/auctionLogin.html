@@ -92,40 +92,35 @@
   </div>
 </div>
 
-<!-- Start Featured Product -->
-<section class="bg-light">
-  <div class="container py-5">
-    <div class="row text-center py-3">
-      <div class="col-lg-6 m-auto">
-        <h1 class="h1">Sales Product</h1>
-        <p>
-          지금 경매에 참여하세요!
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-md-4 mb-4" th:each="product : ${productList}">
-        <div class="card h-100">
-          <a th:href="'/product/'+${product.id}" style="height: 200px; overflow: hidden;">
-            <img th:src="'data:image/png;base64,'+${photo[productStat.index]}"  class="card-img-top" alt="...">
-          </a>
-          <div class="card-body">
-            <ul class="list-unstyled d-flex justify-content-between">
-              <div class="text-muted">현재 입찰가 :</div>
-              <li class="text-muted text-right" th:text="${product.currentPrice}"></li>
-            </ul>
-            <ul class="list-unstyled d-flex justify-content-between">
-              <div class="text-muted">입찰 마감시간 :</div>
-              <li class="text-muted text-right" th:text="${product.endTime}"></li>
-            </ul>
-            <a th:href="'/product/'+${product.id}" class="h2 text-decoration-none text-dark" th:text="${product.title}"></a>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- Start Content Page -->
+<div class="container-fluid bg-light py-5">
+  <div class="col-md-6 m-auto text-center">
+    <h1 class="h1">Login</h1>
   </div>
-</section>
-<!-- End Featured Product -->
+</div>
+<!-- Start Contact -->
+<div class="container py-5">
+  <div class="row py-5">
+    <form class="col-md-9 m-auto" role="form" action="/login" method="post" th:object="${loginForm}">
+      <div class="form-group col-md-6 mb-3" style="margin:auto;">
+        <label for="ID">ID</label>
+        <input type="text" class="form-control mt-1" id="ID" name="ID" placeholder="아이디를 입력하세요." th:field="*{loginId}">
+      </div>
+      <div class="form-group col-md-6 mb-3" style="margin:auto;">
+        <label for="Password">Password</label>
+        <input type="Password" class="form-control mt-1" id="Password" name="loginPassword" placeholder="비밀번호를 입력하세요." th:field="*{loginPassword}">
+      </div>
+      <div class="form-group col-md-6 mb-3" style="margin:auto;">
+        <button type="submit" class="btn btn-success btn-lg px-3" style=" float: right;">로그인</button>
+      </div>
+      <div class="form-group col-md-6 mb-3" style="margin:auto;">
+        <div class="fieldError" th:if="${error}" th:text="${error}" style="color:#be0000;"></div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- End Contact -->
+
 <!-- Start Script -->
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js"></script>
@@ -134,5 +129,4 @@
 <script src="/js/custom.js"></script>
 <!-- End Script -->
 </body>
-
 </html>

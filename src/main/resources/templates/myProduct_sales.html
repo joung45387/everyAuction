@@ -16,7 +16,7 @@
   <!-- Load fonts style after rendering the layout styles -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
   <link rel="stylesheet" href="/css/fontawesome.min.css">
-
+  <script src="/modal.js"></script>
 </head>
 
 <body>
@@ -92,40 +92,87 @@
   </div>
 </div>
 
-<!-- Start Featured Product -->
-<section class="bg-light">
-  <div class="container py-5">
-    <div class="row text-center py-3">
-      <div class="col-lg-6 m-auto">
-        <h1 class="h1">Sales Product</h1>
-        <p>
-          지금 경매에 참여하세요!
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 col-md-4 mb-4" th:each="product : ${productList}">
-        <div class="card h-100">
-          <a th:href="'/product/'+${product.id}" style="height: 200px; overflow: hidden;">
-            <img th:src="'data:image/png;base64,'+${photo[productStat.index]}"  class="card-img-top" alt="...">
+
+
+<!-- Start Content -->
+<div class="container py-5">
+  <div class="row">
+    <div class="col-lg-3">
+      <h1 class="h2 pb-4">My Auction</h1>
+      <ul class="list-unstyled templatemo-accordion">
+        <li class="pb-3">
+          <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+            My Product
+            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
           </a>
-          <div class="card-body">
-            <ul class="list-unstyled d-flex justify-content-between">
-              <div class="text-muted">현재 입찰가 :</div>
-              <li class="text-muted text-right" th:text="${product.currentPrice}"></li>
-            </ul>
-            <ul class="list-unstyled d-flex justify-content-between">
-              <div class="text-muted">입찰 마감시간 :</div>
-              <li class="text-muted text-right" th:text="${product.endTime}"></li>
-            </ul>
-            <a th:href="'/product/'+${product.id}" class="h2 text-decoration-none text-dark" th:text="${product.title}"></a>
+          <ul class="collapse show list-unstyled pl-3">
+            <li><a class="text-decoration-none" href="/bidBuyRecode">Purchase</a></li>
+            <li><a class="text-decoration-none" href="/bidRecode">Sales</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-lg-9">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Sales List</h2>
+          <ul class="list-inline shop-top-menu pb-3 pt-1">
+            <li class="list-inline-item">
+              <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="h3 text-dark text-decoration-none mr-3" href="#">Succeed</a>
+            </li>
+            <li class="list-inline-item">
+              <a class="h3 text-dark text-decoration-none" href="#">Failed</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-4" th:each="product : ${productList}">
+          <div class="card mb-4 product-wap rounded-0">
+            <div class="card rounded-0">
+              <div style="height: 200px; overflow: hidden;">
+              <img class="card-img rounded-0 img-fluid" th:src="'data:image/png;base64,'+${photo[productStat.index]}">
+              </div>
+              <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                <ul th:if="${product.buyer}!='유찰'" class="list-unstyled">
+                  <li><button class="btn btn-success text-white" th:onclick="'test('+${product.id}+')'">입찰 기록</button></li>
+                  <li><button class="btn btn-success text-white mt-2" th:onclick="'chat('+${product.id}+')'">채팅 하기</button></li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body">
+                <li class="pt-2" style="display: inline; float: right;">
+                  <button th:if="${product.buyer}!='유찰'" disabled class="btn btn-outline-success" style="display: inline; float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                      <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path>
+                    </svg>
+                  </button>
+                  <button th:unless="${product.buyer}!='유찰'" disabled class="btn btn-outline-danger" style="display: inline; float: right;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+                    </svg>
+                  </button>
+                </li>
+
+              <a th:href="'/product/'+${product.id}" class="h3 text-decoration-none" style="display: inline;"><h4 th:text="${product.title}"></h4></a>
+              <li style="list-style-type: none;">마감 시간 : <span>2022-11-19</span></li>
+              <li style="list-style-type: none;">구매자 : <span th:text="${product.buyer}"></span></li>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
-<!-- End Featured Product -->
+</div>
+<!-- End Content -->
+<div class="container" id="te"></div>
+<div th:if="${existence}">거래기록이 없습니다.</div>
+
 <!-- Start Script -->
 <script src="/js/jquery-1.11.0.min.js"></script>
 <script src="/js/jquery-migrate-1.2.1.min.js"></script>

@@ -16,7 +16,7 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="/css/fontawesome.min.css">
-
+    <link rel="stylesheet" href="/fielderror.css" type="text/css">
     <!-- Slick -->
     <link rel="stylesheet" type="text/css" href="/css/slick.min.css">
     <link rel="stylesheet" type="text/css" href="/css/slick-theme.css">
@@ -34,13 +34,14 @@
     <script src="/replyTime.js"></script>
 
     <script th:inline="javascript">
+        /*<![CDATA[*/
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, onConnected, onError);
         function onConnected() {
             console.log("sucess");
-            stompClient.subscribe('/sub/productId/'+22, function (e) {
-                document.getElementById("id22").innerText = "현재가:"+e.body;
+            stompClient.subscribe('/sub/productId/[[${product.id}]]', function (e) {
+                document.getElementById('id[[${product.id}]]').innerText = "현재가: "+e.body;
             });
         }
         function onError(error) {
@@ -54,6 +55,7 @@
                 document.getElementById("edit"+id).style.display="block";
             }
         }
+        /*]]>*/
     </script>
 
 </head>
@@ -78,34 +80,19 @@
                         <a class="nav-link" href="/productlist">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
+                        <a class="nav-link" href="/saleitemupload">Product Upload</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="shop.html">Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
+                        <a class="nav-link" href="/bidRecode">My Product</a>
                     </li>
                 </ul>
             </div>
             <div class="navbar align-self-center d-flex">
-                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                        <div class="input-group-text">
-                            <i class="fa fa-fw fa-search"></i>
-                        </div>
-                    </div>
-                </div>
-                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a>
-                <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                </a>
                 <a class="nav-icon position-relative text-decoration-none" href="/myinfo">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                </a>
+                <a th:if="!${isLogin}" class="nav-icon position-relative text-decoration-none" href="/logout">
+                    <i class="fa fa-fw fa-user-slash text-dark mr-3"></i>
                 </a>
             </div>
         </div>
@@ -152,12 +139,13 @@
                                     <h6>남은 시간:</h6>
                                     <div id = "lefttime"></div>
                                 </li>
+                                <div class="fieldError" th:text="${lowerprice}"></div>
                             </ul>
 
                             <form th:action="'/product/'+${product.id}+'/bid'" th:if="${possible}" method="post">
                                 <div>
                                     <label >입찰</label>
-                                    <input type="text" class="form-control mt-1" name="cost" id="price" placeholder="입찰할 가격을 입력하세요.">
+                                    <input type="number" class="form-control mt-1" name="cost" id="price" placeholder="입찰할 가격을 입력하세요.">
                                 </div>
                                 <p></p>
                                 <div class="row pb-3">
@@ -226,29 +214,7 @@
                                 <button type="submit" class="btn btn-success btn-lg px-3">입력</button>
                             </div>
                         </form>
-                </div>
-                    <!--
-                    <div>댓글 : </div>
-                    <div th:each="reply : ${replies}">
-                        <div th:text="${reply.getUserId()}" style="display: inline-block"></div>
-                        <div th:text="${reply.getContent()}" style="display: inline-block"></div>
-                        <div th:onload="'this.innerText=timeForToday('+${reply.getUploadTime()}+')'" style="display: inline-block">1</div>
-
-                        <button th:if="${mine[replyStat.index]}" th:onclick="'show('+${reply.id}+')'">수정</button>
-                        <form th:if="${mine[replyStat.index]}" th:action="'/product/deletereply/'+${reply.id}+'/'+${product.id}" method="post" style="display: inline-block">
-                            <input type="submit" value="삭제">
-                        </form>
-                        <form th:if="${mine[replyStat.index]}" th:action="'/product/editreply/'+${reply.id}+'/'+${product.id}"
-                              method="post" style="display: none" th:id="'edit'+${reply.id}" >
-                            <input type="text" name="content">
-                            <input type="submit" value="수정">
-                        </form>
                     </div>
-                    <form th:action="'/product/'+${product.id}+'/productreply'" method="post">
-                        <input type="text" name="content">
-                        <input type="submit" value="등록">
-                    </form>
-                    -->
                 </div>
             </div>
         </div>

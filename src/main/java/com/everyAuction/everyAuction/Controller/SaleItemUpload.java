@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
+import static com.everyAuction.everyAuction.Controller.ProductList.SESSION_ID;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,10 +33,11 @@ public class SaleItemUpload {
     private final ScheduleService SS;
 
     @GetMapping("/saleitemupload")
-    public String SaleItemUpload(@SessionAttribute(name = SESSION_ID, required = false) Member member){
+    public String SaleItemUpload(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
         if(member==null){
            return "redirect:/login";
         }
+        model.addAttribute("isLogin", member==null);
         return "productUpload";
     }
 

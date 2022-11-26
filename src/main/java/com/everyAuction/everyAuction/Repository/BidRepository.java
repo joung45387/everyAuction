@@ -26,15 +26,6 @@ public class BidRepository {
         );
     }
 
-    public void saveCompleteBidRecord(BidRecord bidRecord){
-        jdbcTemplate.update(
-                "insert into bidRecord(bidUserId, ProductId, bidTime, bidPrice) values(?,?,?,?)",
-                bidRecord.getBidUserId(),
-                bidRecord.getProductId(),
-                bidRecord.getBidTime(),
-                bidRecord.getBidPrice()
-        );
-    }
 
     public List<BidRecord> findbyproductid(int id){
         List<BidRecord> findbyproductid = jdbcTemplate.query("select id, bidUserId, productId, bidTime, bidPrice from bidRecord where productId = ? order by id desc",
@@ -123,11 +114,6 @@ public class BidRepository {
         );
         return findcompleteproduct;
     }
-
-    /*public List<Product> 함수 (상품id)
-    where문 상품id=id
-    거래기록에서 보여줄것들
-     */
 
 
     public String findBidder (int productId){

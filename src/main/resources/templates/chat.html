@@ -107,7 +107,7 @@
     <div class="d-inline-block scrollBar"  id="chatbox"  style="overflow-x:hidden;overflow-y:scroll; height: 100%; width: 100%;">
         <div th:each="chat : ${allChat}" th:text="${chat.getSender()}+' : '+${chat.getText()}"></div>
     </div>
-    <div class="d-inline">
+    <div class="d-inline" style="text-align: center">
         <input th:onkeyup="'enter('+${productId}+')'" style="display:inline-block; width: 85%;" type="text" class="form-control mt-1" id="chat" name="content" placeholder="여기에 채팅 입력.">
         <button th:onclick="'send('+${productId}+')'" class="btn btn-success btn-lg px-3">입력</button>
     </div>

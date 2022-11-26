@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
+import static com.everyAuction.everyAuction.Controller.ProductList.SESSION_ID;
 
 @Controller
 @RequiredArgsConstructor
 public class BidrecodeController {
     private final BidRepository BR;
+
 
     @GetMapping("/bidRecode")
     public String SearchbidComplete(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
@@ -35,8 +36,8 @@ public class BidrecodeController {
         model.addAttribute("productList", completebidrecord);
         model.addAttribute("photo", imgs);
         model.addAttribute("existence", completebidrecord.isEmpty());
-
         model.addAttribute("status", "판매 기록");
+        model.addAttribute("isLogin", member==null);
         return "myProduct_sales";
     }
 
@@ -54,6 +55,7 @@ public class BidrecodeController {
         model.addAttribute("existence", completebidrecord.isEmpty());
         model.addAttribute("myid", member.getId());
         model.addAttribute("status", "구매 기록");
+        model.addAttribute("isLogin", member==null);
         return "myProduct_purchase";
     }
 
@@ -66,6 +68,7 @@ public class BidrecodeController {
         }
         List<BidRecord> findbyproductid = BR.findbyproductid(id);
         model.addAttribute("bidRecord", findbyproductid);
+        model.addAttribute("isLogin", member==null);
         return "bidComplete";
     }
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
+import static com.everyAuction.everyAuction.Controller.ProductList.SESSION_ID;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +20,7 @@ public class myinfo {
             return "redirect:/login";
         }
         model.addAttribute("info", member);
+        model.addAttribute("isLogin", member==null);
         return "profile";
     }
 }

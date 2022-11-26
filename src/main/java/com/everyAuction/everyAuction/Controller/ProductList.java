@@ -14,13 +14,16 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
 
 @Controller
 @RequiredArgsConstructor
 public class ProductList {
     private final ItemRepository IR;
-
+    static final String SESSION_ID = "SESSION_ID";
+    @GetMapping("/")
+    public String a(){
+        return "redirect:/productlist";
+    }
     @GetMapping("/productlist")
     public String SaleItemUpload(@SessionAttribute(name = SESSION_ID, required = false) Member member, Model model){
 
@@ -28,6 +31,7 @@ public class ProductList {
         List<String> imgs = all.stream().map(img -> new String(Base64.encodeBase64((byte[]) img.getProductPhoto()))).collect(Collectors.toList());
         model.addAttribute("productList", all);
         model.addAttribute("photo", imgs);
+        model.addAttribute("isLogin", member==null);
         return "index";
     }
 

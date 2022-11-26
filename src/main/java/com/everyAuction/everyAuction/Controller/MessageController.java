@@ -12,7 +12,6 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
 
 @Controller
 @RequiredArgsConstructor

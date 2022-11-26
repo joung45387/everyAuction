@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
   <link rel="stylesheet" href="/css/fontawesome.min.css">
   <script src="/modal.js"></script>
+  <script src="/filter.js"></script>
 </head>
 
 <body>
@@ -39,34 +40,21 @@
             <a class="nav-link" href="/productlist">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="/saleitemupload">Product Upload</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="shop.html">Shop</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
+            <a class="nav-link" href="/bidRecode">My Product</a>
           </li>
         </ul>
       </div>
       <div class="navbar align-self-center d-flex">
         <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-          <div class="input-group">
-            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-            <div class="input-group-text">
-              <i class="fa fa-fw fa-search"></i>
-            </div>
-          </div>
         </div>
-        <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-          <i class="fa fa-fw fa-search text-dark mr-2"></i>
-        </a>
-        <a class="nav-icon position-relative text-decoration-none" href="#">
-          <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-          <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-        </a>
         <a class="nav-icon position-relative text-decoration-none" href="/myinfo">
           <i class="fa fa-fw fa-user text-dark mr-3"></i>
+        </a>
+        <a th:if="!${isLogin}" class="nav-icon position-relative text-decoration-none" href="/logout">
+          <i class="fa fa-fw fa-user-slash text-dark mr-3"></i>
         </a>
       </div>
     </div>
@@ -120,20 +108,21 @@
           <h2>Purchase List</h2>
           <ul class="list-inline shop-top-menu pb-3 pt-1">
             <li class="list-inline-item">
-              <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+              <a class="h3 text-dark text-decoration-none mr-3" onclick="showAll()">All</a>
             </li>
             <li class="list-inline-item">
-              <a class="h3 text-dark text-decoration-none mr-3" href="#">Succeed</a>
+              <a class="h3 text-dark text-decoration-none mr-3" onclick="showSucceed()">Succeed</a>
             </li>
             <li class="list-inline-item">
-              <a class="h3 text-dark text-decoration-none" href="#">Failed</a>
+              <a class="h3 text-dark text-decoration-none" onclick="showFailed()">Failed</a>
             </li>
           </ul>
         </div>
 
       </div>
       <div class="row">
-        <div class="col-md-4" th:each="product : ${productList}">
+        <div th:if="${existence}">거래기록이 없습니다.</div>
+        <div th:class="${product.buyer}==${myid} ? 'sucess col-md-4' : 'fail col-md-4'" class="col-md-4" th:each="product : ${productList}">
           <div class="card mb-4 product-wap rounded-0">
             <div class="card rounded-0">
               <div style="height: 200px; overflow: hidden;">
@@ -160,7 +149,7 @@
                 </button>
               </li>
               <a th:href="'/product/'+${product.id}" class="h3 text-decoration-none" style="display: inline;"><h4 th:text="${product.title}"></h4></a>
-              <li style="list-style-type: none;">마감 시간 : <span>2022-11-19</span></li>
+              <li style="list-style-type: none;">마감 시간 : <div th:text="${product.endTime}">2022-11-19</div></li>
               <li style="list-style-type: none;">판매자 : <span th:text="${product.saleUser}"></span></li>
             </div>
           </div>

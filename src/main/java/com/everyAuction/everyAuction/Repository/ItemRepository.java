@@ -40,19 +40,6 @@ public class ItemRepository {
         return keyHolder.getKey().intValue();
 
 
-
-        /*jdbcTemplate.update(
-                "insert into product(salesUser, startPrice, productPhoto, ProductInformation, title, endTime, currentPrice) values(?,?,?,?,?,?,?)",
-                product.getSaleUser(),
-                product.getStartPrice(),
-                product.getProductPhoto(),
-                product.getProductInformation(),
-                product.getTitle(),
-                product.getEndTime(),
-                product.getCurrentPrice(),
-                keyHolder
-        );
-        return keyHolder.getKey().intValue();*/
     }
 
     public void updateCurrentPrice(int id, int price){

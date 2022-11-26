@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
+import static com.everyAuction.everyAuction.Controller.ProductList.SESSION_ID;
 
 @Controller
 @RequiredArgsConstructor

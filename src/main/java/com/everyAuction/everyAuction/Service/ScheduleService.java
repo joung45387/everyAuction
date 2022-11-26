@@ -52,7 +52,6 @@ public class ScheduleService extends Thread{
             if(!isStop){
                 ScheduledProduct productInfo = pq.poll();
                 String bidder = BR.findBidder(productInfo.getId());
-                System.out.println(bidder);
                 IR.updateBidder(bidder, productInfo.getId());
                 System.out.println("동작 완료! 남은 작업:"+pq.size());
             }

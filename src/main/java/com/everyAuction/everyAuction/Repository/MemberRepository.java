@@ -58,17 +58,4 @@ public class MemberRepository {
         return query.isEmpty()?false:true;
     }
 
-    public boolean poslogin(LoginForm lf){
-        List<String> query = jdbcTemplate.query(
-                "select id from users where id=? and password=?",
-                (rs, rowNum) -> {
-                    String s = new String(
-                            rs.getString("id")
-                    );
-                    return s;
-                },
-                lf.getLoginId(), lf.getLoginPassword()
-        );
-        return query.isEmpty()?false:true;
-    }
 }

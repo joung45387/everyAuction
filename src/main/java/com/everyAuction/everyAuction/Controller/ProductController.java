@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.everyAuction.everyAuction.Controller.testpage.SESSION_ID;
+import static com.everyAuction.everyAuction.Controller.ProductList.SESSION_ID;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,9 +51,17 @@ public class ProductController {
         }
         Product product = IR.findById(id);
         model = productInit(model, product, id, member);
+        if(product.getEndTime().isBefore(LocalDateTime.now(ZoneId.of("Asia/Seoul")))){
+            model.addAttribute("lowerprice", "경매가 끝나 입찰이 불가능 합니다.");
+            return "product_single";
+        }
+        if(product.getSaleUser().equals(member.getId())){
+            model.addAttribute("lowerprice", "판매자는 입찰에 참여할 수 없습니다.");
+            return "product_single";
+        }
         if(product.getCurrentPrice()>=Integer.parseInt(cost)){
             model.addAttribute("lowerprice", "현재가 보다 낮은 입찰은 할수 없습니다.");
-            return "/product/"+id;
+            return "product_single";
         }
         simpMessageSendingOperations.convertAndSend("/sub/productId/"+id, cost);
         IR.updateCurrentPrice(id, Integer.parseInt(cost));
@@ -110,6 +118,7 @@ public class ProductController {
         model.addAttribute("possible", product.getEndTime().compareTo(LocalDateTime.now(ZoneId.of("Asia/Seoul"))) > 0);
         model.addAttribute("replies", allReply);
         model.addAttribute("mine", collect);
+        model.addAttribute("isLogin", member==null);
         return model;
     }
 }

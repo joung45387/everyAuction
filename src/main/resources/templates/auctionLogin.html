@@ -87,6 +87,9 @@
   <div class="row py-5">
     <form class="col-md-9 m-auto" role="form" action="/login" method="post" th:object="${loginForm}">
       <div class="form-group col-md-6 mb-3" style="margin:auto;">
+        <div class="fieldError" th:if="${error}" th:text="${error}" style="color:#be0000;"></div>
+      </div>
+      <div class="form-group col-md-6 mb-3" style="margin:auto;">
         <label for="ID">ID</label>
         <input type="text" class="form-control mt-1" id="ID" name="ID" placeholder="아이디를 입력하세요." th:field="*{loginId}">
       </div>
@@ -95,10 +98,8 @@
         <input type="Password" class="form-control mt-1" id="Password" name="loginPassword" placeholder="비밀번호를 입력하세요." th:field="*{loginPassword}">
       </div>
       <div class="form-group col-md-6 mb-3" style="margin:auto;">
-        <button type="submit" class="btn btn-success btn-lg px-3" style=" float: right;">로그인</button>
-      </div>
-      <div class="form-group col-md-6 mb-3" style="margin:auto;">
-        <div class="fieldError" th:if="${error}" th:text="${error}" style="color:#be0000;"></div>
+        <button type="submit" class="btn btn-success btn-lg px-3" style=" float:right; margin-left: 10px">로그인</button>
+        <a type="submit" class="btn btn-success btn-lg px-3" style=" float:right; padding: 11px" href="/memberRegistration"><h5 style="margin:auto">회원가입</h5></a>
       </div>
     </form>
   </div>

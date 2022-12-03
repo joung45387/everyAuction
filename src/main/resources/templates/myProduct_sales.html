@@ -121,14 +121,14 @@
       </div>
       <div class="row">
         <div th:if="${existence}">거래기록이 없습니다.</div>
-        <div th:class="${product.buyer}!='유찰' ? 'sucess col-md-4' : 'fail col-md-4'" class="col-md-4" th:each="product : ${productList}">
+        <div th:class="${product.buyer}!=null ? 'sucess col-md-4' : 'fail col-md-4'" class="col-md-4" th:each="product : ${productList}">
           <div class="card mb-4 product-wap rounded-0">
             <div class="card rounded-0">
               <div style="height: 200px; overflow: hidden;">
               <img class="card-img rounded-0 img-fluid" th:src="'data:image/png;base64,'+${photo[productStat.index]}">
               </div>
               <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                <ul th:if="${product.buyer}!='유찰'" class="list-unstyled">
+                <ul th:if="${product.buyer}!=null" class="list-unstyled">
                   <li><button class="btn btn-success text-white" th:onclick="'test('+${product.id}+')'">입찰 기록</button></li>
                   <li><button class="btn btn-success text-white mt-2" th:onclick="'chat('+${product.id}+')'">채팅 하기</button></li>
                 </ul>

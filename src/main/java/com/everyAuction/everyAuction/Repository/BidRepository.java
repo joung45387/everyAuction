@@ -59,19 +59,17 @@ public class BidRepository {
 
 
     public List<Product> completebidrecordNoBuyer(String id){
-        List<Product> findcompleteproduct = jdbcTemplate.query("select id, title, productPhoto,endTime, lastbidder\n" +
-                        "from product left join \n" +
-                        "(select productId, max(bidPrice), max(bidUserId) as lastbidder\n" +
-                        " from bidRecord group by productId) temp\n" +
-                        " on product.id = temp.productId \n" +
-                        " where endTime<? and salesUser = ?",
+        List<Product> findcompleteproduct = jdbcTemplate.query("select p.id, p.title, p.productPhoto,p.endTime, temp.bidUserId\n" +
+                        "from product p left join\n" +
+                        "(select * from bidRecord a where (productId, bidPrice) in (select productId, max(bidPrice) from bidRecord b  group by productId)) temp\n" +
+                        "on p.id = temp.productId where p.endTime<? and p.salesUser = ?",
                 (rs, rowNum) -> {
                     Product sp = new Product();
                     sp.setId(rs.getInt("id"));
                     sp.setTitle(rs.getString("title"));
                     sp.setProductPhoto(rs.getBytes("productPhoto"));
                     sp.setEndTime(rs.getObject("endTime", LocalDateTime.class));
-                    sp.setBuyer(rs.getString("lastbidder"));
+                    sp.setBuyer(rs.getString("bidUserId"));
                     return sp;
                 },
                 LocalDateTime.now(ZoneId.of("Asia/Seoul")),

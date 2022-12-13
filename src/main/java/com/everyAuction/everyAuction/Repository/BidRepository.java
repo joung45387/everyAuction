@@ -135,6 +135,38 @@ public class BidRepository {
         return findcompleteproduct;
     }
 
+    public List<Product> findBuyRecordNoBuyer(String id){
+        List<Product> findcompleteproduct = jdbcTemplate.query("select *\n" +
+                        "from product \n" +
+                        "inner join (select t2.productId, t2.bidUserId\n" +
+                        "\t\t\tfrom (select productId \n" +
+                        "\t\t\t\t  from bidRecord \n" +
+                        "                  where bidUserId = ? \n" +
+                        "                  group by productId) t1\n" +
+                        "\t\t\tinner join (select productId,bidUserId \n" +
+                        "\t\t\t\t\t   from bidRecord \n" +
+                        "\t\t\t\t\t   where (productId,bidPrice) in (select productId, max(bidPrice) \n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t  from bidRecord \n" +
+                        "\t\t\t\t\t\t\t\t\t\t\t\t\t  group by productId)) t2\n" +
+                        "\t\t\ton t1.productId = t2.productId) t3\n" +
+                        "on product.id = t3.productId\n" +
+                        "and endTime<?\n",
+                (rs, rowNum) -> {
+                    Product sp = new Product();
+                    sp.setId(rs.getInt("id"));
+                    sp.setTitle(rs.getString("title"));
+                    sp.setProductPhoto(rs.getBytes("productPhoto"));
+                    sp.setEndTime(rs.getObject("endTime", LocalDateTime.class));
+                    sp.setBuyer(rs.getString("bidUserId"));
+                    sp.setSaleUser(rs.getString("salesUser"));
+                    return sp;
+                },
+                id,
+                LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+        );
+        return findcompleteproduct;
+    }
+
 
     public String findBidder (int productId){
         List<String> buyer = jdbcTemplate.query("select bidUserId from bidRecord where productId=? and bidPrice = (select max(bidPrice) from bidRecord where productId = ?)",

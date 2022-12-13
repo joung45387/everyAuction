@@ -48,7 +48,7 @@ public class BidrecodeController {
             return "redirect:/login";
         }
 
-        List<Product> completebidrecord = BR.findBuyRecord(member.getId());
+        List<Product> completebidrecord = BR.findBuyRecordNoBuyer(member.getId());
         List<String> imgs = completebidrecord.stream().map(img -> new String(Base64.encodeBase64((byte[]) img.getProductPhoto()))).collect(Collectors.toList());
         model.addAttribute("productList", completebidrecord);
         model.addAttribute("photo", imgs);

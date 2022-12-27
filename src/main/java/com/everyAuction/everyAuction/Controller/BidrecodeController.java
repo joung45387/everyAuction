@@ -36,6 +36,8 @@ public class BidrecodeController {
         model.addAttribute("productList", completebidrecord);
         model.addAttribute("photo", imgs);
         model.addAttribute("existence", completebidrecord.isEmpty());
+
+
         model.addAttribute("status", "판매 기록");
         model.addAttribute("isLogin", member==null);
         return "myProduct_sales";

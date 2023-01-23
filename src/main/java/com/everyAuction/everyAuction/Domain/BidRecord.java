@@ -15,11 +15,9 @@ public class BidRecord {
         this.bidPrice = bidPrice;
     }
     public BidRecord(){}
-
     private int bidRecordId;
     private String bidUserId;
     private int productId;
     private LocalDateTime bidTime;
     private int bidPrice;
-
 }
